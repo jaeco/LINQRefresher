@@ -1,1 +1,5 @@
-D:\James Corkran\Documents\GitHub\LINQRefresher\bin\Debug\LINQRefresher.exe.config
+D:\James Corkran\Documents\GitHub\LINQRefresher\bin\Debug\LINQRefresher.dll.config
+D:\James Corkran\Documents\GitHub\LINQRefresher\bin\Debug\LINQRefresher.dll
+D:\James Corkran\Documents\GitHub\LINQRefresher\bin\Debug\LINQRefresher.pdb
+D:\James Corkran\Documents\GitHub\LINQRefresher\obj\Debug\LINQRefresher.dll
+D:\James Corkran\Documents\GitHub\LINQRefresher\obj\Debug\LINQRefresher.pdb

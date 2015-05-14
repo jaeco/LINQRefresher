@@ -24,7 +24,9 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The collection of Students with the same gender as the parameter</returns>
         public static IEnumerable<Student> GetStudentsByGender(this IEnumerable<Student> students, Gender sex)
         {
-			throw new NotImplementedException();
+            var collection = students.Where(s => s.Sex == sex);
+
+            return collection;
         }
 
         /// <summary>
@@ -36,7 +38,12 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The collection of Students that match the criteria</returns>
         public static IEnumerable<Student> GetStudentsByAgeRange(this IEnumerable<Student> students, int minYearsOld, int maxYearsOld)
         {
-            throw new NotImplementedException();
+            var collection = from s in students
+                             where s.Age >= minYearsOld && s.Age <= maxYearsOld
+                             select s;
+
+            return collection;
+            
         }
 
         /// <summary>
@@ -46,7 +53,9 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The collection of students not currently passing</returns>
         public static IEnumerable<Student> GetTheFailingStudents(this IEnumerable<Student> students)
         {
-            throw new NotImplementedException();
+            var collection = students.Where(s => s.GPA < 2.0);
+
+            return collection;
         }
 
         /// <summary>
@@ -56,7 +65,27 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>A Dictionary where the key is the ClassLevel and the value is the number of students in that level</returns>
         public static Dictionary<ClassLevel, int> StudentsPerClassLevel(this IEnumerable<Student> students)
         {
-            throw new NotImplementedException();
+            Dictionary<ClassLevel, int> students_per_level = new Dictionary<ClassLevel, int>();
+
+            ////Grab all Freshmen
+            //int freshmen_amount = students.Count(s => s.Level == ClassLevel.Freshman);
+            
+            ////Grab all Sophomores
+            //int sophomore_amount = students.Count(s => s.Level == ClassLevel.Sophomore);
+            
+            ////Grab all Juniors
+            //int junior_amount = students.Count(s => s.Level == ClassLevel.Junior);
+            
+            ////Grab all Seniors
+            //int senior_amount = students.Count(s => s.Level == ClassLevel.Senior);
+
+            foreach(ClassLevel cl in Enum.GetValues(typeof(ClassLevel)))
+            {
+                int count = students.Count(s => s.Level == cl);
+                students_per_level.Add(cl, count);
+            }
+
+            return students_per_level;
         }
 
         /// <summary>
