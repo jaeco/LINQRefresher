@@ -43,7 +43,7 @@ namespace LINQRefresher_v3.ExtensionMethods
                              select s;
 
             return collection;
-            
+
         }
 
         /// <summary>
@@ -69,17 +69,17 @@ namespace LINQRefresher_v3.ExtensionMethods
 
             ////Grab all Freshmen
             //int freshmen_amount = students.Count(s => s.Level == ClassLevel.Freshman);
-            
+
             ////Grab all Sophomores
             //int sophomore_amount = students.Count(s => s.Level == ClassLevel.Sophomore);
-            
+
             ////Grab all Juniors
             //int junior_amount = students.Count(s => s.Level == ClassLevel.Junior);
-            
+
             ////Grab all Seniors
             //int senior_amount = students.Count(s => s.Level == ClassLevel.Senior);
 
-            foreach(ClassLevel cl in Enum.GetValues(typeof(ClassLevel)))
+            foreach (ClassLevel cl in Enum.GetValues(typeof(ClassLevel)))
             {
                 int count = students.Count(s => s.Level == cl);
                 students_per_level.Add(cl, count);
@@ -95,7 +95,20 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The MaritalStatus value with the highest average GPA</returns>
         public static MaritalStatus MaritalStatusWithHighestAverageGPA(this IEnumerable<Student> students)
         {
-            throw new NotImplementedException();
+            Dictionary<MaritalStatus, float> averages = new Dictionary<MaritalStatus, float>();
+
+            foreach (MaritalStatus ms in Enum.GetValues(typeof(MaritalStatus)))
+            {
+                var collection = from s in students
+                                 where s.Relationship == ms
+                                 select s.GPA;
+                float avg = collection.Average();
+
+                averages.Add(ms, avg);
+            }
+
+            var max = averages.Aggregate((highest, last) => highest.Value > last.Value ? highest : last).Key;
+            return max;
         }
 
         /// <summary>
@@ -106,7 +119,22 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The collection of the top students</returns>
         public static IEnumerable<Student> TopOfTheClass(this IEnumerable<Student> students, int count)
         {
+            //Grab a collection (list) of students based on their class level
+            Dictionary<ClassLevel, List<Student>> stud_collection = new Dictionary<ClassLevel,List<Student>>();
+
+            foreach(ClassLevel cl in Enum.GetValues(typeof(ClassLevel)))
+            {
+                List<Student> collection = from s in students
+                                 where s.Level == cl
+                                 orderby s.GPA descending
+                                 select s;
+
+                stud_collection.Add(cl, collection);
+            }
+
+
             throw new NotImplementedException();
+
         }
 
         /// <summary>
@@ -150,7 +178,7 @@ namespace LINQRefresher_v3.ExtensionMethods
         }
 
         //HELPER METHOD - You do not need to use LINQ for this.
-		/// <summary>
+        /// <summary>
         /// Derives the Zodiac sign for an instance of Person based on its Birthdate property
         /// </summary>
         /// <param name="p">The target Person object whose Zodiac sign will be derived</param>
