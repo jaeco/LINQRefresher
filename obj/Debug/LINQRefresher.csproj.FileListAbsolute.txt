@@ -3,3 +3,5 @@ D:\James Corkran\Documents\GitHub\LINQRefresher\bin\Debug\LINQRefresher.dll
 D:\James Corkran\Documents\GitHub\LINQRefresher\bin\Debug\LINQRefresher.pdb
 D:\James Corkran\Documents\GitHub\LINQRefresher\obj\Debug\LINQRefresher.dll
 D:\James Corkran\Documents\GitHub\LINQRefresher\obj\Debug\LINQRefresher.pdb
+D:\documents\GitHub\LINQRefresher\obj\Debug\LINQRefresher.csprojResolveAssemblyReference.cache
+D:\documents\GitHub\LINQRefresher\obj\Debug\LINQRefresher.dll

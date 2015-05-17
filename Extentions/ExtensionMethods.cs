@@ -124,16 +124,18 @@ namespace LINQRefresher_v3.ExtensionMethods
 
             foreach(ClassLevel cl in Enum.GetValues(typeof(ClassLevel)))
             {
-                List<Student> collection = from s in students
+
+               var collection = from s in students
                                  where s.Level == cl
                                  orderby s.GPA descending
                                  select s;
 
-                stud_collection.Add(cl, collection);
+               var generic_list = collection.ToList();
+
+                stud_collection.Add(cl, generic_list);
             }
 
-
-            throw new NotImplementedException();
+            
 
         }
 
