@@ -119,23 +119,24 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The collection of the top students</returns>
         public static IEnumerable<Student> TopOfTheClass(this IEnumerable<Student> students, int count)
         {
+           // Dictionary<ClassLevel, List<Student>> stud_collection = new Dictionary<ClassLevel, List<Student>>();
+            
+            List<Student> return_collection = new List<Student>();
+
             //Grab a collection (list) of students based on their class level
-            Dictionary<ClassLevel, List<Student>> stud_collection = new Dictionary<ClassLevel,List<Student>>();
-
-            foreach(ClassLevel cl in Enum.GetValues(typeof(ClassLevel)))
+            foreach (ClassLevel cl in Enum.GetValues(typeof(ClassLevel)))
             {
-
-               var collection = from s in students
+                List<Student> templist = new List<Student>();
+                var collection = from s in students
                                  where s.Level == cl
                                  orderby s.GPA descending
                                  select s;
 
-               var generic_list = collection.ToList();
-
-                stud_collection.Add(cl, generic_list);
+                templist = collection.Take(count).ToList();
+                return_collection.AddRange(templist);
             }
+            return return_collection;
 
-            
 
         }
 
@@ -146,7 +147,10 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The collection of students that are under the age of 18</returns>
         public static IEnumerable<Student> UnderageStudents(this IEnumerable<Student> students)
         {
-            throw new NotImplementedException();
+            var underage_students = students.Where(s => s.Age < 18);
+            return underage_students;
+
+            
         }
 
         /// <summary>
@@ -156,7 +160,11 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The collection of Person objects that are actually Students</returns>
         public static IEnumerable<Student> FindTheStudents(this IEnumerable<Person> people)
         {
-            throw new NotImplementedException();
+            List<Student> studs = new List<Student>();
+
+            studs = people.OfType<Student>().ToList();
+
+            return studs;
         }
 
         /// <summary>
@@ -166,7 +174,9 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The percentage of Person objects that are also Students expressed as a float less than or equal to 1.0</returns>
         public static float CurrentPercentageOfPeopleInSchool(this IEnumerable<Person> people)
         {
-            throw new NotImplementedException();
+            float percentofstudents = people.FindTheStudents().Count() / people.Count();
+
+            return percentofstudents;
         }
 
         /// <summary>
@@ -176,7 +186,17 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>A Dictionary where the key is the sign and the value is the number of people born under it</returns>
         public static Dictionary<ZodiacSign, int> NumberOfPeopleByBirthSign(this IEnumerable<Person> people)
         {
-            throw new NotImplementedException();
+            Dictionary<ZodiacSign, int> sign_amounts = new Dictionary<ZodiacSign, int>();
+            
+            foreach(ZodiacSign z in Enum.GetValues(typeof(ZodiacSign)))
+            {
+                var peoplepersign = people.Where(p => p.BirthSign() == z);
+
+                int amountinsign = peoplepersign.Count();
+
+                sign_amounts.Add(z, amountinsign);
+            }
+            return sign_amounts;
         }
 
         //HELPER METHOD - You do not need to use LINQ for this.
@@ -187,7 +207,24 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The ZodiacSign enum value for the target Person object</returns>
         public static ZodiacSign BirthSign(this Person p)
         {
-            throw new NotImplementedException();
+            ZodiacSign Sign = ZodiacSign.Capricorn;
+            /*
+             *Aquarius = 1/21 ~ 2/19
+             *Pices = 2/20 ~ 3/20
+             *Aries = 3/21 ~ 4/20
+             *Taurus = 4/21 ~ 5/21
+             *Gemini = 5/22 ~ 6/21
+             *Cancer = 6/22 ~ 7/22
+             *Leo = 7/23 ~ 8/22
+             *Virgo = 8/23 ~ 9/23
+             *Libra = 9/24 ~ 10/23
+             *Scorpio = 10/24 ~ 11/22
+             *Saggitarrius = 11/23 ~ 12/21
+             *Capricorn = 12/22 ~ 1/20
+             */           
+ 
+            //Create Dictionary that holds a sign, and its starting date and end date (in Month / Day format)
+            return Sign;
         }
     }
 }
