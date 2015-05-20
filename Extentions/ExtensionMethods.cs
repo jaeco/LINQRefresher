@@ -99,10 +99,21 @@ namespace LINQRefresher_v3.ExtensionMethods
 
             foreach (MaritalStatus ms in Enum.GetValues(typeof(MaritalStatus)))
             {
-                var collection = from s in students
-                                 where s.Relationship == ms
-                                 select s.GPA;
-                float avg = collection.Average();
+                //Default to 0 if empty
+                var collection = students.Where(s => s.Relationship == ms)
+                                                .Select(s => s.GPA)
+                                                .DefaultIfEmpty(0)
+                                                .Average();
+                //Check to see if the collection is empty or not
+                /*
+                 *  var collection = students.Where(s => s.Relationship == ms)
+                 *                              .Select
+                 */
+                    
+                                 //from s in students
+                                 //where s.Relationship == ms
+                                 //select s.GPA;
+                float avg = collection;
 
                 averages.Add(ms, avg);
             }
@@ -119,8 +130,8 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The collection of the top students</returns>
         public static IEnumerable<Student> TopOfTheClass(this IEnumerable<Student> students, int count)
         {
-           // Dictionary<ClassLevel, List<Student>> stud_collection = new Dictionary<ClassLevel, List<Student>>();
-            
+            // Dictionary<ClassLevel, List<Student>> stud_collection = new Dictionary<ClassLevel, List<Student>>();
+
             List<Student> return_collection = new List<Student>();
 
             //Grab a collection (list) of students based on their class level
@@ -150,7 +161,7 @@ namespace LINQRefresher_v3.ExtensionMethods
             var underage_students = students.Where(s => s.Age < 18);
             return underage_students;
 
-            
+
         }
 
         /// <summary>
@@ -174,7 +185,7 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The percentage of Person objects that are also Students expressed as a float less than or equal to 1.0</returns>
         public static float CurrentPercentageOfPeopleInSchool(this IEnumerable<Person> people)
         {
-            float percentofstudents = people.FindTheStudents().Count() / people.Count();
+            float percentofstudents = (float)people.FindTheStudents().Count() / (float)people.Count();
 
             return percentofstudents;
         }
@@ -187,8 +198,8 @@ namespace LINQRefresher_v3.ExtensionMethods
         public static Dictionary<ZodiacSign, int> NumberOfPeopleByBirthSign(this IEnumerable<Person> people)
         {
             Dictionary<ZodiacSign, int> sign_amounts = new Dictionary<ZodiacSign, int>();
-            
-            foreach(ZodiacSign z in Enum.GetValues(typeof(ZodiacSign)))
+
+            foreach (ZodiacSign z in Enum.GetValues(typeof(ZodiacSign)))
             {
                 var peoplepersign = people.Where(p => p.BirthSign() == z);
 
@@ -207,22 +218,68 @@ namespace LINQRefresher_v3.ExtensionMethods
         /// <returns>The ZodiacSign enum value for the target Person object</returns>
         public static ZodiacSign BirthSign(this Person p)
         {
-            ZodiacSign Sign = ZodiacSign.Capricorn;
-            /*
-             *Aquarius = 1/21 ~ 2/19
-             *Pices = 2/20 ~ 3/20
-             *Aries = 3/21 ~ 4/20
-             *Taurus = 4/21 ~ 5/21
-             *Gemini = 5/22 ~ 6/21
-             *Cancer = 6/22 ~ 7/22
-             *Leo = 7/23 ~ 8/22
-             *Virgo = 8/23 ~ 9/23
-             *Libra = 9/24 ~ 10/23
-             *Scorpio = 10/24 ~ 11/22
-             *Saggitarrius = 11/23 ~ 12/21
-             *Capricorn = 12/22 ~ 1/20
-             */           
- 
+            ZodiacSign Sign;
+
+            //*Aquarius = 1/21 ~ 2/19
+            if ((p.Birthdate.Month == 1 && p.Birthdate.Day >= 21) || ((p.Birthdate.Month == 2 && p.Birthdate.Day <= 19)))
+            {
+                Sign = ZodiacSign.Aquarius;
+            }
+            //*Pices = 2/20 ~ 3/20
+            if ((p.Birthdate.Month == 2 && p.Birthdate.Day >= 20) || ((p.Birthdate.Month == 3 && p.Birthdate.Day <= 20)))
+            {
+                Sign = ZodiacSign.Pisces;
+            }
+            //*Aries = 3/21 ~ 4/20
+            if ((p.Birthdate.Month == 3 && p.Birthdate.Day >= 21) || ((p.Birthdate.Month == 4 && p.Birthdate.Day <= 20)))
+            {
+                Sign = ZodiacSign.Aries;
+            }
+            //*Taurus = 4/21 ~ 5/21
+            if ((p.Birthdate.Month == 4 && p.Birthdate.Day >= 21) || ((p.Birthdate.Month == 5 && p.Birthdate.Day <= 21)))
+            {
+                Sign = ZodiacSign.Taurus;
+            }
+            //*Gemini = 5/22 ~ 6/21
+            if ((p.Birthdate.Month == 5 && p.Birthdate.Day >= 22) || ((p.Birthdate.Month == 6 && p.Birthdate.Day <= 21)))
+            {
+                Sign = ZodiacSign.Gemini;
+            }
+            //*Cancer = 6/22 ~ 7/22
+            if ((p.Birthdate.Month == 6 && p.Birthdate.Day >= 22) || ((p.Birthdate.Month == 7 && p.Birthdate.Day <= 22)))
+            {
+                Sign = ZodiacSign.Cancer;
+            }
+            //*Leo = 7/23 ~ 8/22
+            if ((p.Birthdate.Month == 7 && p.Birthdate.Day >= 23) || ((p.Birthdate.Month == 8 && p.Birthdate.Day <= 22)))
+            {
+                Sign = ZodiacSign.Leo;
+            }
+            //*Virgo = 8/23 ~ 9/23
+            if ((p.Birthdate.Month == 8 && p.Birthdate.Day >= 23) || ((p.Birthdate.Month == 9 && p.Birthdate.Day <= 23)))
+            {
+                Sign = ZodiacSign.Virgo;
+            }
+            //*Libra = 9/24 ~ 10/23
+            if ((p.Birthdate.Month == 9 && p.Birthdate.Day >= 24) || ((p.Birthdate.Month == 10 && p.Birthdate.Day <= 23)))
+            {
+                Sign = ZodiacSign.Libra;
+            }
+            //*Scorpio = 10/24 ~ 11/22
+            if ((p.Birthdate.Month == 10 && p.Birthdate.Day >= 24) || ((p.Birthdate.Month == 11 && p.Birthdate.Day <= 22)))
+            {
+                Sign = ZodiacSign.Scorpio;
+            }
+            //*Saggitarrius = 11/23 ~ 12/21
+            if ((p.Birthdate.Month == 11 && p.Birthdate.Day >= 23) || ((p.Birthdate.Month == 12 && p.Birthdate.Day <= 21)))
+            {
+                Sign = ZodiacSign.Saggitarius;
+            }
+            //*Capricorn = 12/22 ~ 1/20
+            else //((p.Birthdate.Month == 1 && p.Birthdate.Day >= 21) || ((p.Birthdate.Month == 2 && p.Birthdate.Day >= 19)))
+            {
+                Sign = ZodiacSign.Capricorn;
+            }
             //Create Dictionary that holds a sign, and its starting date and end date (in Month / Day format)
             return Sign;
         }

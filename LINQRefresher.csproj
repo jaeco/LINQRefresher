@@ -7,8 +7,8 @@
     <ProjectGuid>{899F4BCD-C350-4915-86FE-FED1F5D9F70F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LINQRefresher</RootNamespace>
-    <AssemblyName>LINQRefresher</AssemblyName>
+    <RootNamespace>CorkranJ_LINQRefresher</RootNamespace>
+    <AssemblyName>CorkranJ_LINQRefresher</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
